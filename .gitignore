@@ -7,3 +7,6 @@ log/*
 *.pyc
 *.jpeg
 checkpoints/*
+env
+.env
+test_input.json

@@ -1,5 +1,6 @@
 import os
 import sys
+
 sys.path.insert(0, "stylegan-encoder")
 import tempfile
 import warnings
@@ -54,12 +55,8 @@ class Predictor(BasePredictor):
 
     def predict(
         self,
-        source_image: Path = Input(
-            description="Input source image.",
-        ),
-        driving_video: Path = Input(
-            description="Choose a micromotion.",
-        ),
+        source_image: Path = Input(description="Input source image."),
+        driving_video: Path = Input(description="Choose a micromotion."),
         dataset_name: str = Input(
             choices=["vox", "taichi", "ted", "mgif"],
             default="vox",
@@ -74,8 +71,8 @@ class Predictor(BasePredictor):
 
         if dataset_name == "vox":
             # first run face alignment
-            align_image(str(source_image), 'aligned.png')
-            source_image = imageio.imread('aligned.png')
+            align_image(str(source_image), "aligned.png")
+            source_image = imageio.imread("aligned.png")
         else:
             source_image = imageio.imread(str(source_image))
         reader = imageio.get_reader(str(driving_video))
@@ -121,5 +118,7 @@ class Predictor(BasePredictor):
 
 
 def align_image(raw_img_path, aligned_face_path):
-    for i, face_landmarks in enumerate(LANDMARKS_DETECTOR.get_landmarks(raw_img_path), start=1):
+    for i, face_landmarks in enumerate(
+        LANDMARKS_DETECTOR.get_landmarks(raw_img_path), start=1
+    ):
         image_align(raw_img_path, aligned_face_path, face_landmarks)
